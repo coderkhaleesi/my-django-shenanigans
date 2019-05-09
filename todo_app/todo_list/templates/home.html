@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}To-do List{% endblock %}
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+<div class="alert alert-warning alert-dismissible fade show ">{{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+    {% endfor %}
+{% endif %}
+
+
+{% if items%}
+    <table class="table table-bordered table-hover">
+        {% for item in items %}
+            {% if item.completed %}
+                <tr class="table-secondary striker">
+                    <td><a href="{% url 'todo_list:edit' id=item.id %}">{{ item.item }}</a></td>
+                    <td><center><a href="{% url 'todo_list:uncross' id=item.id %}">Uncross</a></center></td>
+                    <td><center><a href="{% url 'todo_list:delete' id=item.id %}">Delete</a></center></td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td><a href="{% url 'todo_list:edit' id=item.id %}">{{ item.item }}</a></td>
+                    <td><center><a href="{% url 'todo_list:cross_off' id=item.id %}">Cross Off</a></center></td>
+                    <td><center><a href="{% url 'todo_list:delete' id=item.id %}">Delete</a></center></td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+{% endif %}
+{% endblock %}
